@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Game {
+  id          String   @id @default(cuid())
+  externalId  String?  @unique
+  totalOdds   Float
+  confidence  Int
+  targetOdds  Int
+  matches     String   // JSON stringified matches
+  pushedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+}

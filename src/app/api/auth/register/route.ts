@@ -31,8 +31,9 @@ export async function POST(request: Request) {
     await login({ id: user.id, email: user.email, tier: user.tier, sessionId });
 
     return NextResponse.json({ success: true, user: { email: user.email, tier: user.tier } });
-  } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  } catch (e: any) {
+    console.error("Registration Error:", e.message, e.stack);
+    return NextResponse.json({ error: 'Internal Server Error', details: e.message }, { status: 500 });
   }
+
 }

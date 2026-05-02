@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma';
 import { Game } from '@prisma/client';
-import { Target, Zap, Activity, Brain, Clock, ShieldCheck, ChevronRight } from 'lucide-react';
+import { 
+  Target, Zap, Activity, Brain, Clock, ShieldCheck, 
+  ChevronRight, Cpu, Database, Shield, Terminal, Globe 
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +31,7 @@ export default async function LandingPage() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         {/* Header */}
-        <header className="text-center mb-20">
+        <header className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6 animate-fade-up">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Neural Network Active
@@ -40,6 +43,48 @@ export default async function LandingPage() {
             Experience the future of football analytics. Our multi-agent system generates high-precision predictions through neural consensus.
           </p>
         </header>
+
+        {/* Engine Info Box */}
+        <div className="mb-20 animate-fade-up [animation-delay:500ms]">
+          <div className="p-8 sm:p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/10 backdrop-blur-md overflow-hidden relative group">
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Cpu size={120} className="text-primary" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="p-2 rounded-lg bg-primary/20 text-primary">
+                  <Terminal size={20} />
+                </div>
+                <h3 className="text-sm font-black uppercase tracking-[0.3em]">Engine Core Architecture</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {[
+                  { name: 'Crawler-X', desc: 'Harvests real-time odds from 4+ global data gateways.', icon: Globe, status: 'Active' },
+                  { name: 'Neural-Processor', desc: 'Normalizes and structures raw match telemetry.', icon: Database, status: 'Idle' },
+                  { name: 'Consensus-Analyst', desc: 'Multi-LLM reasoning for precision match picks.', icon: Brain, status: 'Processing' },
+                  { name: 'Logic-Validator', desc: 'Verifies outcomes against real-world results.', icon: Shield, status: 'Online' },
+                ].map((agent, i) => (
+                  <div key={i} className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <agent.icon size={16} className="text-primary/60" />
+                      <span className="text-[11px] font-black uppercase tracking-widest text-slate-200">{agent.name}</span>
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">{agent.desc}</p>
+                    <div className="flex items-center gap-2 pt-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${
+                        agent.status === 'Active' || agent.status === 'Online' ? 'bg-emerald-500' : 
+                        agent.status === 'Processing' ? 'bg-primary animate-pulse' : 'bg-slate-600'
+                      }`} />
+                      <span className="text-[9px] font-bold text-slate-600 uppercase">{agent.status}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20 animate-fade-up [animation-delay:600ms]">

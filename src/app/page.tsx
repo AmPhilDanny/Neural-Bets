@@ -1,13 +1,14 @@
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { LandingView } from '@/components/LandingView';
+import { Game } from '@prisma/client';
 
 export const dynamic = 'force-dynamic';
 
 export default async function LandingPage() {
   const session = await getSession();
   
-  let games = [];
+  let games: Game[] = [];
   let error = null;
 
   try {

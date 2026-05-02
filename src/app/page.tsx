@@ -1,10 +1,11 @@
-import prisma from '@/lib/prisma';
-import { Target, Zap, Activity, Brain, Clock, ShieldCheck } from 'lucide-react';
+import { prisma } from '@/lib/prisma';
+import { Game } from '@prisma/client';
+import { Target, Zap, Activity, Brain, Clock, ShieldCheck, ChevronRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function LandingPage() {
-  let games = [];
+  let games: Game[] = [];
   let error = null;
 
   try {

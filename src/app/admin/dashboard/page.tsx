@@ -12,7 +12,8 @@ import {
   XCircle, 
   Clock,
   ShieldCheck,
-  Brain
+  Brain,
+  Crown
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';

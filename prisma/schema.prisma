@@ -7,14 +7,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+  VIP
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  email             String           @unique
+  password          String
+  name              String?
+  tier              SubscriptionTier @default(FREE)
+  subscriptionEnds  DateTime?
+  activeSessionId   String?          // For single-device login
+  lastLoginAt       DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  transactions      Transaction[]
+}
+
 model Game {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   externalId  String?  @unique
   totalOdds   Float
   confidence  Int
   targetOdds  Int
+  category    String   @default("2x") // "2x", "5x", "10x"
+  isPremium   Boolean  @default(false)
+  status      String   @default("PENDING") // "PENDING", "WON", "LOST"
   matches     String   // JSON stringified matches
-  status      String   @default("PENDING")
   pushedAt    DateTime @default(now())
   createdAt   DateTime @default(now())
+}
+
+model Transaction {
+  id            String            @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String            @db.ObjectId
+  user          User              @relation(fields: [userId], references: [id])
+  amount        Float
+  currency      String            @default("NGN")
+  status        TransactionStatus @default(PENDING)
+  reference     String            @unique // Paystack reference
+  type          String            // "SUBSCRIPTION"
+  tier          SubscriptionTier
+  duration      String            // "DAILY", "WEEKLY", "MONTHLY"
+  paymentMethod String            // "PAYSTACK", "TRANSFER"
+  createdAt     DateTime          @default(now())
 }

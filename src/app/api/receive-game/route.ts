@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { notifyNewOdds } from '@/lib/notifications';
 
 export async function POST(request: Request) {
   try {
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
 
     const data = await request.json();
 
-    const { externalId, totalOdds, confidence, targetOdds, matches, status } = data;
+    const { externalId, totalOdds, confidence, targetOdds, matches, category, isPremium } = data;
 
     if (!totalOdds || !matches) {
       return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
@@ -31,8 +32,9 @@ export async function POST(request: Request) {
         totalOdds,
         confidence,
         targetOdds,
+        category: category || "2x",
+        isPremium: isPremium ?? false,
         matches: JSON.stringify(matches),
-        status: status || 'PENDING',
         pushedAt: new Date()
       },
       create: {
@@ -40,10 +42,18 @@ export async function POST(request: Request) {
         totalOdds,
         confidence,
         targetOdds,
-        matches: JSON.stringify(matches),
-        status: status || 'PENDING'
+        category: category || "2x",
+        isPremium: isPremium ?? false,
+        matches: JSON.stringify(matches)
       }
     });
+
+    // Trigger notifications for new games
+    try {
+      await notifyNewOdds(category || "2x", totalOdds);
+    } catch (e) {
+      console.error('Notification trigger failed:', e);
+    }
 
     return NextResponse.json({
       success: true,

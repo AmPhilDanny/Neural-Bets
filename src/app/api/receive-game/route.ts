@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     const data = await request.json();
 
-    const { externalId, totalOdds, confidence, targetOdds, matches } = data;
+    const { externalId, totalOdds, confidence, targetOdds, matches, status } = data;
 
     if (!totalOdds || !matches) {
       return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
@@ -32,6 +32,7 @@ export async function POST(request: Request) {
         confidence,
         targetOdds,
         matches: JSON.stringify(matches),
+        status: status || 'PENDING',
         pushedAt: new Date()
       },
       create: {
@@ -39,7 +40,8 @@ export async function POST(request: Request) {
         totalOdds,
         confidence,
         targetOdds,
-        matches: JSON.stringify(matches)
+        matches: JSON.stringify(matches),
+        status: status || 'PENDING'
       }
     });
 

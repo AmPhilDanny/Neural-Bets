@@ -14,6 +14,7 @@ model Game {
   confidence  Int
   targetOdds  Int
   matches     String   // JSON stringified matches
+  status      String   @default("PENDING")
   pushedAt    DateTime @default(now())
   createdAt   DateTime @default(now())
 }

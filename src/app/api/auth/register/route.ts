@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import prisma from '@/lib/prisma';
 import { login } from '@/lib/auth';
-import { v4 as uuidv4 } from 'uuid'; // I need to add uuid to package.json or use crypto
 
 export async function POST(request: Request) {
   try {

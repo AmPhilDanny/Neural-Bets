@@ -20,6 +20,8 @@ export async function decrypt(input: string): Promise<any> {
   return payload;
 }
 
+import { prisma } from '@/lib/prisma';
+
 export async function login(user: { id: string; email: string; tier: string; sessionId: string }) {
   // Create the session
   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -34,11 +36,34 @@ export async function logout() {
   (await cookies()).set('session', '', { expires: new Date(0) });
 }
 
+
 export async function getSession() {
-  const session = (await cookies()).get('session')?.value;
-  if (!session) return null;
-  return await decrypt(session);
+  const sessionCookie = (await cookies()).get('session')?.value;
+  if (!sessionCookie) return null;
+  
+  try {
+    const parsed = await decrypt(sessionCookie);
+    if (!parsed || !parsed.user) return null;
+
+    // Strict one-device check: verify sessionId against DB
+    const user = await prisma.user.findUnique({
+      where: { id: parsed.user.id },
+      select: { activeSessionId: true, tier: true }
+    });
+
+    if (!user || user.activeSessionId !== parsed.user.sessionId) {
+      return null; // Session invalidated or session mismatch
+    }
+
+    // Sync latest tier
+    parsed.user.tier = user.tier;
+    
+    return parsed;
+  } catch (e) {
+    return null;
+  }
 }
+
 
 export async function updateSession(request: NextRequest) {
   const session = request.cookies.get('session')?.value;

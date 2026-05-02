@@ -4,10 +4,18 @@ import { Target, Zap, Activity, Brain, Clock, ShieldCheck } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export default async function LandingPage() {
-  const games = await prisma.game.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 20
-  });
+  let games = [];
+  let error = null;
+
+  try {
+    games = await prisma.game.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 20
+    });
+  } catch (e) {
+    console.error("Database connection error:", e);
+    error = "System synchronizing with neural network...";
+  }
 
   return (
     <div className="min-h-screen bg-[#020617] text-[#f8fafc] font-sans selection:bg-primary/20 selection:text-primary">
@@ -59,7 +67,13 @@ export default async function LandingPage() {
             </div>
           </div>
 
-          {games.length === 0 ? (
+          {error ? (
+            <div className="py-32 text-center card-base bg-white/5 border-dashed border-2 border-primary/20">
+              <Activity size={48} className="mx-auto text-primary animate-pulse mb-4" />
+              <p className="text-primary font-medium">{error}</p>
+              <p className="text-xs text-slate-500 mt-2">The engine is currently initializing its secure connection.</p>
+            </div>
+          ) : games.length === 0 ? (
             <div className="py-32 text-center card-base bg-white/5 border-dashed border-2 border-white/10">
               <Zap size={48} className="mx-auto text-slate-700 mb-4" />
               <p className="text-slate-500 font-medium">Awaiting neural consensus. No slips generated yet.</p>

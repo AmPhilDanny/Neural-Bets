@@ -5,11 +5,19 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default async function HistoryPage() {
-  const games = await prisma.game.findMany({
-    where: { status: { in: ['WON', 'LOST'] } },
-    orderBy: { createdAt: 'desc' },
-    take: 50
-  });
+  let games: any[] = [];
+  let dbError = false;
+
+  try {
+    games = await prisma.game.findMany({
+      where: { status: { in: ['WON', 'LOST'] } },
+      orderBy: { createdAt: 'desc' },
+      take: 50
+    });
+  } catch (e) {
+    console.error("History DB error:", e);
+    dbError = true;
+  }
 
   const stats = {
     total: games.length,
@@ -55,22 +63,30 @@ export default async function HistoryPage() {
                   {game.status === 'WON' ? <CheckCircle2 size={20} /> : <XCircle size={20} />}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-200">{game.targetOdds}× Odds Slip</p>
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Category: {game.category}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-black text-white">{game.totalOdds.toFixed(2)}×</p>
-                <p className="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">{new Date(game.createdAt).toLocaleDateString()}</p>
+                <p className="text-sm font-bold text-slate-200">{game.targetOdds || 0}× Odds Slip</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Category: {game.category || 'Unknown'}</p>
               </div>
             </div>
+            <div className="text-right">
+              <p className="text-xs font-black text-white">{typeof game.totalOdds === 'number' ? game.totalOdds.toFixed(2) : '0.00'}×</p>
+              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">
+                {game.createdAt ? new Date(game.createdAt).toLocaleDateString() : 'Unknown Date'}
+              </p>
+            </div>
+          </div>
           ))}
 
-          {games.length === 0 && (
+          {dbError ? (
+            <div className="py-20 text-center border-2 border-dashed border-rose-500/20 bg-rose-500/5 rounded-[2rem]">
+              <XCircle className="mx-auto text-rose-500 mb-4" size={32} />
+              <p className="text-rose-500 font-bold mb-2">Database Connection Error</p>
+              <p className="text-slate-500 italic text-sm">The platform is currently unable to connect to the database. Please verify the DATABASE_URL environment variable in Vercel.</p>
+            </div>
+          ) : games.length === 0 ? (
             <div className="py-20 text-center border-2 border-dashed border-white/10 rounded-[2rem]">
               <p className="text-slate-500 italic">No historical data available yet. Our network is compiling results.</p>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

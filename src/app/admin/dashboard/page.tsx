@@ -57,7 +57,7 @@ export default async function AdminDashboard() {
              <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
                <Activity size={14} /> System Online
              </div>
-             <a href="/" className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest hover:bg-white/10">View Frontend</a>
+             <Link href="/" className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest hover:bg-white/10">View Frontend</Link>
           </div>
         </header>
 

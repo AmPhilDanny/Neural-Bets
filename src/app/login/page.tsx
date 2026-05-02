@@ -39,7 +39,7 @@ export default function LoginPage() {
           
           <div className="mt-6 text-center">
             <p className="text-sm text-slate-400">
-              Don't have an account? <Link href="/register" className="text-primary font-bold hover:underline">Join VIP</Link>
+              Don&apos;t have an account? <Link href="/register" className="text-primary font-bold hover:underline">Join VIP</Link>
             </p>
           </div>
         </div>

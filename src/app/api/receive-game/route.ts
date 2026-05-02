@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { notifyNewOdds } from '@/lib/notifications';
+import { events, EVENT_TYPES } from '@/lib/events';
 
 export async function POST(request: Request) {
   try {
@@ -47,6 +48,9 @@ export async function POST(request: Request) {
         matches: JSON.stringify(matches)
       }
     });
+
+    // Emit event for real-time updates
+    events.emit(EVENT_TYPES.NEW_GAME, game);
 
     // Trigger notifications for new games
     try {

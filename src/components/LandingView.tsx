@@ -101,7 +101,7 @@ export function LandingView({ games, session, error }: { games: any[], session: 
               ))}
               {freeGames.length === 0 && !error && (
                 <div className="col-span-full py-20 text-center bg-white/5 border-dashed border-2 border-white/10 rounded-3xl">
-                  <p className="text-slate-500">Awaiting today's free consensus slips...</p>
+                  <p className="text-slate-500">Awaiting today&apos;s free consensus slips...</p>
                 </div>
               )}
             </div>

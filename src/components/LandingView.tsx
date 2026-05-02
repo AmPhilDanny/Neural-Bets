@@ -82,6 +82,50 @@ export function LandingView({ games, session, error }: { games: any[], session: 
         {/* Main Content Sections */}
         <div className="space-y-32">
           
+          {/* AI Engine Live Status */}
+          <section className="mb-16">
+            <div className="card-base p-6 border-emerald-500/20 bg-[#020617]/50 backdrop-blur-md relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"></div>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 relative">
+                    <Brain size={28} />
+                    <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+                    <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+                  </div>
+                  <div>
+                    <h3 className="font-black uppercase tracking-tight text-lg text-white">Robust AI Engine <span className="text-emerald-500">Online</span></h3>
+                    <p className="text-xs text-slate-400 mt-1">Multi-agent consensus actively processing data</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-4 w-full md:w-auto">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Scraper Agent</p>
+                      <p className="text-xs font-bold text-white">Active</p>
+                    </div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Data Processor</p>
+                      <p className="text-xs font-bold text-white">Synced</p>
+                    </div>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Analyst Engine</p>
+                      <p className="text-xs font-bold text-white">Predicting</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Section 1: Free Access */}
           <section>
             <div className="flex items-end justify-between border-b border-white/10 pb-6 mb-10">

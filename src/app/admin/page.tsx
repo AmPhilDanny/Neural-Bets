@@ -24,35 +24,36 @@ export default function AdminRedirect() {
             All scraping, data processing, and prediction logic is managed from the secure Intelligence Dashboard.
           </p>
           
-          <div className="space-y-4 mb-8 text-left">
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-4">
-              <Activity className="text-emerald-500" />
-              <div>
-                <p className="font-bold text-sm">Agent Management</p>
-                <p className="text-xs text-slate-400">Configure Scraper, Processor, and Analyst Agents</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <Link 
+              href="/admin/dashboard" 
+              className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all group"
+            >
+              <div className="p-3 rounded-xl bg-primary/10 text-primary mb-3 group-hover:scale-110 transition-transform">
+                <Database size={24} />
               </div>
-            </div>
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-4">
-              <Database className="text-cyan-500" />
-              <div>
-                <p className="font-bold text-sm">Data Vault</p>
-                <p className="text-xs text-slate-400">Manage Football API & Neural Model API Keys</p>
+              <p className="font-black uppercase tracking-tighter text-sm">Site Dashboard</p>
+              <p className="text-[10px] text-slate-500 uppercase font-bold mt-1">Manage Users & Sales</p>
+            </Link>
+
+            <a 
+              href="https://ai-pred-app.vercel.app/admin" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/50 transition-all group"
+            >
+              <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 mb-3 group-hover:scale-110 transition-transform">
+                <Brain size={24} />
               </div>
-            </div>
+              <p className="font-black uppercase tracking-tighter text-sm">AI Engine</p>
+              <p className="text-[10px] text-slate-500 uppercase font-bold mt-1">Configure Predictions</p>
+            </a>
           </div>
           
-          <a 
-            href="https://ai-pred-app.vercel.app/admin" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-primary text-white font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-[0_0_40px_rgba(var(--primary),0.3)]"
-          >
-            Access Intelligence Dashboard <ArrowRight size={18} />
-          </a>
-          
-          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-500">
-            <Lock size={12} /> Secure Connection Required
+          <div className="flex items-center justify-center gap-2 text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">
+            <Lock size={12} /> Neural Security Protocol Active
           </div>
+
         </div>
       </div>
     </div>
